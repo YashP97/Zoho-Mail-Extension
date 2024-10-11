@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExtensionGUI</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script async=false>
+        (function() {
+            var src = window.location.host.split(".").slice(2).join(".") === "com.cn" ?
+                "https://js-stratus.zohostatic.com.cn/sigma/client/sdk/v1/sigma-sdk.min.js" :
+                "https://static.zohocdn.com/sigma/client/sdk/v1/sigma-sdk.min.js";
+            document.write('<script src="' + src + '"><\/script>');
+        })();
+    </script>
+    <script src="./js/jquery-min.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>-->
+</head>
+<body class="loginbody">
+    <section id="loginsection">
+        <div id="mainContainer">        
+            <!--<form action="/folder" method="post">-->
+                <input type="text" name="docEdgeUrl" id="docedgeurl" placeholder="URL">
+                <input type="text" name="username" id="docedgeusername" placeholder="Username">
+                <input type="password" name="password" id="docedgepassword" placeholder="Password">
+                <button type="submit" id="loginbutton">Login</button>
+            <!--</form>-->
+        </div>
+    </section>
+    <section id="foldersection">        
+        <div id="folderContainer"></div>
+    </section>
+    <script src="js/clicker.js"></script>
+    <script src="js/soapapis.js"></script>
+</body>
+</html>

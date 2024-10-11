@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script async=false>
+    (function() {
+      var src = window.location.host.split(".").slice(2).join(".") === "com.cn" ? 
+        "https://js-stratus.zohostatic.com.cn/sigma/client/sdk/v1/sigma-sdk.min.js" : 
+        "https://static.zohocdn.com/sigma/client/sdk/v1/sigma-sdk.min.js";
+      document.write('<script src="' + src + '"><\/script>');
+    })();
+ </script>
+ <script async=false>
+   window.AppSDK = SigmaSDK.MAIL.init(() =>{});
+ </script>
+ <script src="./js/jquery-min.js"></script>
+ <script src="./js/apiUtil.js"></script>
+ <script src="./js/appView.js"></script>
+ <script src="./js/soapapis.js"></script>
+ <script src="./js/initApp.js"></script>
+ <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h2>This is a sample Widget built using Zoho Extension toolkit.</h2>
+
+  <div class="cs_data">
+      <div class="cs_data_txt">
+          <div class="cs_acc" id="mailInfoCont">
+              <div class="cs_accTitle active">
+                  <h3>Preview Mail Details</h3>
+              </div>
+              <div class="cs_accCont" id="mailInfo">
+                  <div class="centerDiv">No data found</div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="cs_data">
+      <div class="cs_data_txt">
+          <div class="cs_acc" id="composeInfoCont">
+              <div class="cs_accTitle active">
+                  <h3>Compose/Draft Details</h3>
+              </div>
+              <div class="cs_accCont" id="composeInfo">
+                  <div class="centerDiv">No data found</div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="cs_data">
+      <div class="cs_data_txt">
+          <div class="cs_acc" id="composeInfoCont">
+              <div class="cs_accTitle">
+                  <h3>Compose Mail</h3>
+              </div>
+              <div class="cs_accCont" style="display: none">
+                  <textarea class="composeBox" id="composeArea"></textarea>
+                  <span class="PluginButton" id="compose">Compose</span>
+                  <span class="PluginButton" id="insert">Insert Content</span>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="cs_data">
+      <div class="cs_data_txt">
+          <div class="cs_acc" id="contactInfoCont">
+              <div class="cs_accTitle">
+                  <h3>Contact details</h3>
+              </div>
+              <div class="cs_accCont" style="display: none">
+                  <div class="search_form"> <input type="text" class="search_input" placeholder="Enter Email/Zuid" /></div>
+                  <span class="PluginButton" id="contactBtn">Get Contact Info</span>
+                  <ul id="contactInfo">
+                  </ul>
+              </div>
+
+          </div>
+      </div>
+  </div>
+  <div class="cs_data">
+      <div class="cs_data_txt">
+          <div class="cs_acc">
+              <div class="cs_accTitle">
+                  <h3>Email relation data</h3>
+              </div>
+              <div class="cs_accCont" id="relationInfoCont" style="display: none">
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="cs_data">
+      <div class="cs_data_txt">
+          <div class="cs_acc">
+              <div class="cs_accTitle">
+                  <h3>Application data </h3>
+              </div>
+              <div class="cs_accCont" id="relationInfoCont" style="display: none">
+                  <ul>
+                      <li class="hasChild">
+                          <ul>
+                              <li><strong>App data</strong><span id="appData"></span></li>
+                              <li id="notelist">
+                                  <strong style="padding-right: 0.325rem;">Select a Notebook</strong>
+                                  <select id="notebooklist"></select>
+                              </li>
+                              <span class="PluginButton" id="setAppdata">Set app data</span>
+                              <span class="PluginButton" id="deleteAppdata">Delete app data</span>
+                          </ul>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="cs_data">
+      <div class="cs_data_txt">
+          <div class="cs_acc" id="attachmentInfo">
+              <div class="cs_accTitle">
+                  <h3>Attachment actions</h3>
+              </div>
+              <div style="display: none">
+                  <div class="cs_accCont" id="attachmentCont">
+                  </div>
+                  <div class="cs_accCont" id="attachDeskTopCont">
+                      <input type="file" />
+                      <span class='PluginButton' id='insertFromDesk' style="display: none">Add to Notebook</span>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</body>
+</html>
