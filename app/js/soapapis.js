@@ -49,7 +49,6 @@ let getdocEdgeWorkspaceApi = function(sid){
 }
 
 let getdocEdgeListChildrenApi = function(sid, folderId){
-    console.log("getdocEdgeListChildrenApi starts");
     let soaprequest = `
         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:fol="http://folder.webservice.docedge.com/">
             <soapenv:Header/>
@@ -153,7 +152,6 @@ function getdocEdgeWorkspaces(soaprequest){
 }
 
 function getdocEdgeChildFolders(soaprequest){
-    console.log("getdocEdgeChildFolders starts");
     const xhr = new XMLHttpRequest();
     xhr.open("POST", baseurl + "/services/Folder", false);
     xhr.setRequestHeader('Content-Type', 'text/xml; charset=utf-8');
@@ -171,7 +169,6 @@ function getdocEdgeChildFolders(soaprequest){
 
                     list.push({id : idd[0], name : nname[0]});
                 }
-
                 reloadingnewPage(list);
             }else{
                 alert("Failed to get folders");

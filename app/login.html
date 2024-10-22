@@ -13,8 +13,12 @@
             document.write('<script src="' + src + '"><\/script>');
         })();
     </script>
+    <script async=false>
+        window.AppSDK = SigmaSDK.MAIL.init(() =>{});
+      </script>
     <script src="./js/jquery-min.js"></script>
-    <!--<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>-->
+    <script src="./js/apiUtil.js"></script>
+    <script src="./js/appView.js"></script>
 </head>
 <body class="loginbody">
     <section id="loginsection">
@@ -32,5 +36,6 @@
     </section>
     <script src="js/clicker.js"></script>
     <script src="js/soapapis.js"></script>
+    <script src="./js/initApp.js"></script>
 </body>
 </html>
