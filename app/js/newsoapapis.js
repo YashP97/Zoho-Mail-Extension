@@ -1,8 +1,10 @@
-const document_url = "https://docedge.pericent.com/services/Document";
 var baseurl = "";
-var sessionId = "";
 
-let docEdgeLoginApi = function(username, password) {
+let newsoapapis = {
+    sessionId : ""
+};
+
+newsoapapis.docEdgeLoginApi = function(username, password) {
     baseurl = clicker.base_url;
 
     let soaprequest = `
@@ -16,60 +18,60 @@ let docEdgeLoginApi = function(username, password) {
             </soapenv:Body>
         </soapenv:Envelope>
     `
-    getdocEdgeSession(soaprequest);
+    newsoapapis.getdocEdgeSession(soaprequest);
 }
 
-let getdocEdgeRootFolderApi = function(sid) {
+newsoapapis.getdocEdgeRootFolderApi = function() {
     let soaprequest = `
         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:fol="http://folder.webservice.docedge.com/">
             <soapenv:Header/>
             <soapenv:Body>
                 <fol:getRootFolder>
                     <!--Optional:-->
-                    <sid>${sid}</sid>
+                    <sid>${newsoapapis.sessionId}</sid>
                 </fol:getRootFolder>
             </soapenv:Body>
         </soapenv:Envelope>
     `
-    getdocEdgeRootFolder(soaprequest);
+    newsoapapis.getdocEdgeRootFolder(soaprequest);
 };
 
-let getdocEdgeWorkspaceApi = function(sid){
+newsoapapis.getdocEdgeWorkspaceApi = function(){
     let soaprequest = `
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:fol="http://folder.webservice.docedge.com/">
         <soapenv:Header/>
         <soapenv:Body>
             <fol:listWorkspaces>                
-                <sid>${sid}</sid>
+                <sid>${newsoapapis.sessionId}</sid>
             </fol:listWorkspaces>
         </soapenv:Body>
     </soapenv:Envelope>
     `
-    getdocEdgeWorkspaces(soaprequest);
+    newsoapapis.getdocEdgeWorkspaces(soaprequest);
 }
 
-let getdocEdgeListChildrenApi = function(sid, folderId){
+newsoapapis.getdocEdgeListChildrenApi = function(folderId){
     let soaprequest = `
         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:fol="http://folder.webservice.docedge.com/">
             <soapenv:Header/>
             <soapenv:Body>
                 <fol:listChildren>         
-                    <sid>${sid}</sid>
+                    <sid>${newsoapapis.sessionId}</sid>
                     <folderId>${folderId}</folderId>
                 </fol:listChildren>
             </soapenv:Body>
         </soapenv:Envelope>
     `
-    getdocEdgeChildFolders(soaprequest);
+    newsoapapis.getdocEdgeChildFolders(soaprequest);
 }
 
-let docedgeUploadDocumentApi = function(sid, folderId, filename, content){
+newsoapapis.docedgeUploadDocumentApi = function(folderId, filename, content){
     let soaprequest = `
         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:doc="http://document.webservice.docedge.com/">
             <soapenv:Header/>
             <soapenv:Body>
                 <doc:upload>         
-                    <sid>${sid}</sid>         
+                    <sid>${newsoapapis.sessionId}</sid>         
                     <folderId>${folderId}</folderId>         
                     <filename>${filename}</filename>         
                     <content>${content}</content>
@@ -77,9 +79,11 @@ let docedgeUploadDocumentApi = function(sid, folderId, filename, content){
             </soapenv:Body>
         </soapenv:Envelope>
     `
+
+    newsoapapis.uploadDocumentstodocEdge(soaprequest);
 }
 
-function getdocEdgeSession(soaprequest){
+newsoapapis.getdocEdgeSession = function(soaprequest){
     const xhr = new XMLHttpRequest();
     xhr.open('POST', baseurl + "/services/Auth?wsdl", false);
     xhr.setRequestHeader('Content-Type', 'text/xml; charset=utf-8');
@@ -91,10 +95,11 @@ function getdocEdgeSession(soaprequest){
                 var parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(xhr.responseText, "application/xml");
                 const result = xmlDoc.getElementsByTagName("return")[0].textContent;
-                sessionId = result;
-                getdocEdgeWorkspaceApi(result);             
+                newsoapapis.sessionId = result;   
+                clicker.previewsectiondisplay();             
+                // getdocEdgeWorkspaceApi(result);             
             } else {
-                alert('Failed to get login Id');
+                alert('Failed to get session id');
             }
         }
     };
@@ -102,7 +107,7 @@ function getdocEdgeSession(soaprequest){
     xhr.send(soaprequest);    
 }
 
-function getdocEdgeRootFolder(soaprequest){
+newsoapapis.getdocEdgeRootFolder = function(soaprequest){
     const xhr = new XMLHttpRequest();
     xhr.open("POST", baseurl + "/services/Folder", false);
     xhr.setRequestHeader('Content-Type', 'text/xml; charset=utf-8');
@@ -122,7 +127,7 @@ function getdocEdgeRootFolder(soaprequest){
     xhr.send(soaprequest);
 }
 
-function getdocEdgeWorkspaces(soaprequest){
+newsoapapis.getdocEdgeWorkspaces = function(soaprequest){
     const xhr = new XMLHttpRequest();
     xhr.open("POST", baseurl + "/services/Folder", false);
     xhr.setRequestHeader('Content-Type', 'text/xml; charset=utf-8');
@@ -141,9 +146,9 @@ function getdocEdgeWorkspaces(soaprequest){
                     list.push({id : idd[0], name : nname[0]});
                 }
 
-                reloadingnewPage(list);               
+                clicker.reloadingnewPage(list);               
             } else {
-                alert("Failed to get folders");
+                alert("Failed to get workspaces");
             }
         }
     };
@@ -151,7 +156,7 @@ function getdocEdgeWorkspaces(soaprequest){
     xhr.send(soaprequest);
 }
 
-function getdocEdgeChildFolders(soaprequest){
+newsoapapis.getdocEdgeChildFolders = function(soaprequest){
     const xhr = new XMLHttpRequest();
     xhr.open("POST", baseurl + "/services/Folder", false);
     xhr.setRequestHeader('Content-Type', 'text/xml; charset=utf-8');
@@ -169,9 +174,27 @@ function getdocEdgeChildFolders(soaprequest){
 
                     list.push({id : idd[0], name : nname[0]});
                 }
-                reloadingnewPage(list);
+                clicker.reloadingnewPage(list);
             }else{
                 alert("Failed to get folders");
+            }
+        }
+    };
+
+    xhr.send(soaprequest);
+}
+
+newsoapapis.uploadDocumentstodocEdge = function(soaprequest){
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", baseurl + "/services/Document", false);
+    xhr.setRequestHeader('Content-Type', 'text/xml; charset=utf-8');
+
+    xhr.onreadystatechange = () => {
+        if(xhr.readyState === 4){
+            if(xhr.status === 200){
+                alert("Document Uploaded !");                
+            }else{
+                alert("Failed to upload documents");
             }
         }
     };

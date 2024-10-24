@@ -16,9 +16,10 @@
     <script async=false>
         window.AppSDK = SigmaSDK.MAIL.init(() =>{});
       </script>
-    <script src="./js/jquery-min.js"></script>
-    <script src="./js/apiUtil.js"></script>
-    <script src="./js/appView.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/jquery-min.js"></script>
+    <script src="js/newapiUtil.js"></script>
+    <script src="js/newappView.js"></script>
 </head>
 <body class="loginbody">
     <section id="loginsection">
@@ -31,11 +32,42 @@
             <!--</form>-->
         </div>
     </section>
+    <section id="previewmailsection">
+        <div class="cs_data">
+            <div class="cs_data_txt">
+                <div class="cs_acc" id="mailInfoCont">
+                    <div class="cs_accTitle active">
+                        <h3>Preview Mail Details</h3>
+                    </div>
+                    <div class="cs_accCont" id="mailInfo">
+                        <div class="centerDiv">No data found</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cs_data">
+            <div class="cs_data_txt">
+                <div class="cs_acc" id="attachmentInfo">
+                    <div class="cs_accTitle">
+                        <h3>Attachment actions</h3>
+                    </div>
+                    <div style="display: none">
+                        <div class="cs_accCont" id="attachmentCont">
+                        </div>
+                        <div class="cs_accCont" id="attachDeskTopCont">
+                            <input type="file" />
+                            <span class='PluginButton' id='insertFromDesk' style="display: none">Add to Notebook</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <section id="foldersection">        
         <div id="folderContainer"></div>
     </section>
     <script src="js/clicker.js"></script>
-    <script src="js/soapapis.js"></script>
-    <script src="./js/initApp.js"></script>
+    <script src="js/newsoapapis.js"></script>
+    <script src="js/newinitApp.js"></script>
 </body>
 </html>

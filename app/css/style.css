@@ -34,8 +34,8 @@ body {
 }
 
 #loginsection{
-  width: 60%;
-  height: 50%;
+  width: 100%;
+  height: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -63,6 +63,12 @@ body {
     height: 3vh;
     min-height: 30px;
     font-size: larger;
+}
+
+#previewmailsection{
+  display: none;
+  width: 100%;
+  height: max-content;
 }
 
 #foldersection{
