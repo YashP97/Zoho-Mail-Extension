@@ -1,7 +1,8 @@
 var baseurl = "";
 
 let newsoapapis = {
-    sessionId : ""
+    sessionId : "",
+    validsession : ""
 };
 
 newsoapapis.docEdgeLoginApi = function(username, password) {
@@ -19,6 +20,20 @@ newsoapapis.docEdgeLoginApi = function(username, password) {
         </soapenv:Envelope>
     `
     newsoapapis.getdocEdgeSession(soaprequest);
+}
+
+newsoapapis.validSessionApi = function() {
+    let soaprequest = `
+         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:auth="http://auth.webservice.docedge.com/">
+            <soapenv:Header/>
+            <soapenv:Body>
+                <auth:valid>                    
+                    <sid>${newsoapapis.sessionId}</sid>
+                </auth:valid>
+            </soapenv:Body>
+        </soapenv:Envelope>
+    `
+    newsoapapis.checkingValidSession(soaprequest);
 }
 
 newsoapapis.getdocEdgeRootFolderApi = function() {
@@ -105,6 +120,27 @@ newsoapapis.getdocEdgeSession = function(soaprequest){
     };
 
     xhr.send(soaprequest);    
+}
+
+newsoapapis.checkingValidSession = function(soaprequest){
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", baseurl + "/services/Auth", false);
+    xhr.setRequestHeader('Content-Type', 'text/xml; charset=utf-8');
+
+    xhr.onreadystatechange = () => {
+        if(xhr.readyState === 4){
+            if(xhr.status === 200){
+                var parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xhr.responseText, "application/xml");
+                const result = xmlDoc.getElementsByTagName("return")[0].textContent;
+                newsoapapis.validsession = result;
+            }else{
+                alert("Not able to check session authenticity");
+            }
+        }
+    };
+
+    xhr.send(soaprequest);
 }
 
 newsoapapis.getdocEdgeRootFolder = function(soaprequest){

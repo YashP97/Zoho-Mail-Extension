@@ -18,7 +18,7 @@ let populateMailDetails = function(mailInfo) {
  * Subscribe to Events you need using ZMSDK.app.on()
  */
 AppSDK.on("mail_preview", function(mailObj) {
-    window.apiUtil.getMailDetails(mailObj.MSGID).then(function(mailInfo) {        
+    window.apiUtil.getMailDetails(mailObj.MSGID).then(function(mailInfo) {               
         newinitApp.info = mailInfo;
         populateMailDetails(mailInfo);        
     });

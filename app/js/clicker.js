@@ -27,6 +27,10 @@ clicker.previewsectiondisplay = function(){
     document.getElementById('previewmailsection').style.display = "block";
 }
 
+clicker.checkingSessionValidity = function(){
+    newsoapapis.validSessionApi();
+}
+
 clicker.reloadingnewPage = function(list){  
     if(list == null || list.length < 1)
         return;
@@ -94,15 +98,21 @@ clicker.reloadingnewPage = function(list){
 }
 
 let listingdocEdgeFolderChildren = function(id){   
-    if((newsoapapis.sessionId === null || newsoapapis.sessionId === "" || newsoapapis.sessionId === undefined)){
-        alert("No session found");
-    }
-    else if(id === null || id === "" || id === undefined){
+    if(id === null || id === "" || id === undefined){
         alert("Folder Id undefined");
     }
     else{
-        newsoapapis.getdocEdgeListChildrenApi(newsoapapis.sessionId, id);
+        newsoapapis.getdocEdgeListChildrenApi(newsoapapis.sessionId, id);       
     }    
+}
+
+clicker.checkingSessionAuthenticity = function(){
+    if((newsoapapis.sessionId === null || newsoapapis.sessionId === "" || newsoapapis.sessionId === undefined)){
+        return "No Session Found";
+    }
+    else{
+        return "Session Found";
+    }
 }
 
 function createEmlFile(content) {
