@@ -4,30 +4,19 @@ window.appView = {};
 
 window.appView.populateCurrentMailDetails = function(mailData) {
     let rootElement = document.getElementById("mailInfo");
+    if (mailData.type === "attachment") {
+        mailData.NEWATTR = mailData.data;
+    }
     let _template = '<ul>' +
         '<li class="hasChild">' +
         '<ul>' +
         '<li><strong>Message Id</strong><span id="MSGID" style="color:green"></span></li>' +
-        '<li><strong>Subject</strong><span id="SUBJECT"></span></li>' +
-        '<li><strong>Summary</strong><span id="SM"></span></li>' +
-        // '<li><strong>Content</strong><span id="CONTENT"></span></li>' +
         '<li><strong>From</strong><span id="FROM"></span></li>' +
         '<li><strong>To</strong><span id="TO"></span></li>' +
         '<li><strong>CC</strong><span id="CC"></span></li>' +
         '<li><strong>BCC</strong><span id="BCC"></span></li>' +
-        // '<li>' +
-        // '<div class="mailbtnwrap">' +
-        // '<div class="mailbtn" id="reply">' +
-        // '<u>Reply</u>' +
-        // '</div>' +
-        // '<div class="mailbtn" id="replyAll">' +
-        // '<u>Reply All</u>' +
-        // '</div>' +
-        // '<div class="mailbtn" id="forward">' +
-        // '<u>Forward</u>' +
-        // '</div>' +
-        // '</div>' +
-        // '</li>' +
+        '<li><strong>Subject</strong><span id="SUBJECT"></span></li>' +
+        '<li><strong>Summary</strong><span id="SM"></span></li>' +        
         '</ul>' +
         '</li>' +
         '</ul>';
@@ -42,6 +31,70 @@ window.appView.populateCurrentMailDetails = function(mailData) {
         $("#" + key).text(mailData[key] || "-");
 
     });
+
+    if (mailData.type === "attachment") {
+        mailData.NEWATTR = mailData.data;
+    }
+
+    if (!$.isEmptyObject(mailData.NEWATTR)) {
+
+        mailData.NEWATTR.forEach(function(attachmentData, index) {
+
+            // let attachEle = document.createElement("div"),
+                // btnWrapper = document.createElement("div"),
+                let attachEle = document.getElementById("attachmentCont"),
+                fileEle = document.createElement("div"),
+                attachData = {
+                    groupId: attachmentData.groupId,
+                    entityId: attachmentData.entityId,
+                    entityType: attachmentData.entityType,
+                    attachId: attachmentData.attachId
+                };
+
+            fileEle.innerText = attachmentData.name;
+            // btnWrapper.innerHTML = "<div>" +
+            //     "<span class='PluginButton' id='compose'>Add to Compose</span>" +
+            //     (noteId !== "1" && ["gif", "png", "jpeg", "jpg", "bmp", "tiff", "tif"].includes(attachmentData.fmt) ? "<span class='PluginButton' id='insert'>Add to Notebook</span>" : "") +
+            //     "</div>";
+            attachEle.append(fileEle);
+            // attachEle.append(btnWrapper);
+            // $(btnWrapper).find("#compose").click(function() {
+            //     apiUtil.downloadAttachment(attachData).then(function(file) {
+            //         apiUtil.composeNewMail({
+            //             ATTACHMENT: new File([file], attachmentData.name)
+            //         });
+            //     });
+            // });
+            // if ($(btnWrapper).find("#insert")[0]) {
+            //     $(btnWrapper).find("#insert").click(function() {
+            //         var callbackApiXhr = {
+            //             url: "https://notebook.zoho.com/api/v1/cards/image",
+            //             type: "POST",
+            //             headers: {},
+            //             attachPayload: {
+            //                 JSONString: {
+            //                     "notebook_id": noteId,
+            //                     "notecard_name": attachmentData.fn
+            //                 }
+            //             },
+            //             payload: {},
+            //             serviceName: "docedgeConnector",
+            //             params: {},
+            //             file: {
+            //                 fileName: attachmentData.fn,
+            //                 fileParamName: "attachment"
+            //             }
+            //         };
+            //         apiUtil.downloadAttachment(attachData, callbackApiXhr).then(function(params) {
+            //             $(btnWrapper).find("#insert").text("Uploaded");
+            //             $(btnWrapper).find("#insert").css("pointer-events", "none");
+            //         });
+            //     });
+            // }
+            rootElement.appendChild(attachEle);
+        });
+        return;
+    }
 
     // $(rootElement).find(".mailbtn").click(function(event) {
     //     switch (event.currentTarget.id) {
@@ -162,5 +215,5 @@ window.appView.populateAttachmentDetails = function(mailData) {
         });
         return;
     }
-    rootElement.innerHTML = "<div class='centerDiv'>No attachement found</div>";
+    // rootElement.innerHTML = "<div class='centerDiv'>No attachement found</div>";
 };
