@@ -87,7 +87,7 @@ clicker.reloadingnewPage = function(list){
 
         divelement.addEventListener("dblclick", () => {            
             let folder = document.getElementsByClassName('folderdivclickclass')[0];
-            let folderId = folder.id;            
+            let folderId = folder.id;        
             listingdocEdgeFolderChildren(folderId);
         });      
 
@@ -102,7 +102,7 @@ let listingdocEdgeFolderChildren = function(id){
         alert("Folder Id undefined");
     }
     else{
-        newsoapapis.getdocEdgeListChildrenApi(newsoapapis.sessionId, id);       
+        newsoapapis.getdocEdgeListChildrenApi(id);       
     }    
 }
 
