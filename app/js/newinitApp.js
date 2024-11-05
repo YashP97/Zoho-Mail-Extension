@@ -7,7 +7,7 @@ let newinitApp = {};
 
 let populateMailDetails = function(mailInfo) {
     window.appView.populateCurrentMailDetails(mailInfo);
-    window.appView.populateAttachmentDetails(mailInfo);
+    // window.appView.populateAttachmentDetails(mailInfo);
     if (mailInfo.FROM) {
         $(".search_input").val(mailInfo.FROM);
         $("#contactBtn").click();

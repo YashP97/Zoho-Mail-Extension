@@ -2,7 +2,7 @@ var baseurl = "";
 
 let newsoapapis = {
     sessionId : "",
-    validsession : ""
+    sessionValid : false
 };
 
 newsoapapis.docEdgeLoginApi = function(username, password) {
@@ -33,7 +33,55 @@ newsoapapis.validSessionApi = function() {
             </soapenv:Body>
         </soapenv:Envelope>
     `
-    newsoapapis.checkingValidSession(soaprequest);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", baseurl + "/services/Auth", false);
+    xhr.setRequestHeader('Content-Type', 'text/xml; charset=utf-8');
+
+    xhr.onreadystatechange = () => {
+        if(xhr.readyState === 4){
+            if(xhr.status === 200){
+                var parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xhr.responseText, "application/xml");
+                const result = xmlDoc.getElementsByTagName("return")[0].textContent;
+                newsoapapis.sessionValid = result;
+            }else{
+                alert("Not able to check session authenticity");
+            }
+        }
+    };
+
+    xhr.send(soaprequest);
+}
+
+newsoapapis.logoutSessionApi = function(){
+    let soaprequest = `
+        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:auth="http://auth.webservice.docedge.com/">
+            <soapenv:Header/>
+            <soapenv:Body>
+                <auth:logout>
+                    <!--Optional:-->
+                    <sid>${newsoapapis.sessionId}</sid>
+                </auth:logout>
+            </soapenv:Body>
+        </soapenv:Envelope>
+    `;
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", baseurl + "/services/Auth", false);
+    xhr.setRequestHeader('Content-Type', 'text/xml; charset=utf-8');
+
+    xhr.onreadystatechange = () => {
+        if(xhr.readyState === 4){
+            if(xhr.status === 200){
+                               
+            }else{
+                alert("Not able to logout the session");                
+            }
+        }
+    };
+
+    xhr.send(soaprequest);    
 }
 
 newsoapapis.getdocEdgeRootFolderApi = function() {
@@ -120,27 +168,6 @@ newsoapapis.getdocEdgeSession = function(soaprequest){
     };
 
     xhr.send(soaprequest);    
-}
-
-newsoapapis.checkingValidSession = function(soaprequest){
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", baseurl + "/services/Auth", false);
-    xhr.setRequestHeader('Content-Type', 'text/xml; charset=utf-8');
-
-    xhr.onreadystatechange = () => {
-        if(xhr.readyState === 4){
-            if(xhr.status === 200){
-                var parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(xhr.responseText, "application/xml");
-                const result = xmlDoc.getElementsByTagName("return")[0].textContent;
-                newsoapapis.validsession = result;
-            }else{
-                alert("Not able to check session authenticity");
-            }
-        }
-    };
-
-    xhr.send(soaprequest);
 }
 
 newsoapapis.getdocEdgeRootFolder = function(soaprequest){

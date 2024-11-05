@@ -6,6 +6,36 @@ var clicker = {
 
 const { jsPDF } = window.jspdf;
 
+// window.addEventListener('beforeunload', function() {
+//     console.log("The document is about to be unloaded or reloaded.");
+
+//     if(newsoapapis.sessionId === null || newsoapapis.sessionId === ""){
+//         // console.log("if chala");
+//         // clicker.login();
+//     }else{
+//         newsoapapis.logoutSessionApi();
+//         // console.log("else chala");
+//         // const result = clicker.checkingSessionValidity();
+//         // console.log(result);
+//         // if(result){
+//         //     clicker.previewsectiondisplay();
+//         // }else{
+//         //     clicker.login();
+//         // }
+//     }
+// });
+
+// clicker.login = function(){
+//     $('#loginbutton').click(function(){    
+//         clicker.base_url = document.getElementById("docedgeurl").value;    
+//         var login = document.getElementById("docedgeusername").value;
+//         var password = document.getElementById("docedgepassword").value;
+    
+//         newsoapapis.docEdgeLoginApi(login, password);
+//         // previewsectiondisplay();
+//     });
+// }
+
 $('#loginbutton').click(function(){    
     clicker.base_url = document.getElementById("docedgeurl").value;    
     var login = document.getElementById("docedgeusername").value;
@@ -27,8 +57,9 @@ clicker.previewsectiondisplay = function(){
     document.getElementById('previewmailsection').style.display = "block";
 }
 
-clicker.checkingSessionValidity = function(){
-    newsoapapis.validSessionApi();
+clicker.checkingSessionValidity = async function(){
+    await newsoapapis.validSessionApi();
+    return newsoapapis.validsession;
 }
 
 clicker.reloadingnewPage = function(list){  
