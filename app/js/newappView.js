@@ -1,6 +1,8 @@
 let apiUtil = window.apiUtil, noteId = "-1";
     
-window.appView = {};
+window.appView = {
+    attachBlobs : []
+};
 
 window.appView.populateCurrentMailDetails = function(mailData) {
     let rootElement = document.getElementById("mailInfo");
@@ -58,13 +60,17 @@ window.appView.populateNewAttachmentDetails = function(newattr, rootElement){
             attachId: attachmentData.attachId
         };
 
+        apiUtil.downloadAttachment(attachData).then(function(file){
+            window.appView.attachBlobs.push(file);
+        });
+
         fileEle.innerText = attachmentData.name;
         btnWrapper.innerHTML = "<div>" +
             "<span class='PluginButton' id='downloadattachment'>Download</span></div>";
         attachEle.append(fileEle);
         attachEle.append(btnWrapper);
         $(btnWrapper).find("#downloadattachment").click(function() {                
-            apiUtil.downloadAttachment(attachData).then(function(file) {                
+            apiUtil.downloadAttachment(attachData).then(function(file) {
                 const url = URL.createObjectURL(file);                
                 const link = document.createElement("a");
                 link.href = url;

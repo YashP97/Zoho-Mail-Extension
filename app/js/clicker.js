@@ -46,7 +46,7 @@ $('#loginbutton').click(function(){
 });
 
 $(document).on("click", function(event){
-    if(event.target.id === "uploadmail"){        
+    if(event.target.id === "uploadmail"){ 
         createEmlFile(newinitApp.info);
         newsoapapis.getdocEdgeWorkspaceApi();
     }

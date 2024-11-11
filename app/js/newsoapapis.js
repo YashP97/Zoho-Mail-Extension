@@ -2,7 +2,9 @@ var baseurl = "";
 
 let newsoapapis = {
     sessionId : "",
-    sessionValid : false
+    sessionValid : false,
+    maindocId : "",
+    attachdocId : ""
 };
 
 newsoapapis.docEdgeLoginApi = function(username, password) {
@@ -146,6 +148,24 @@ newsoapapis.docedgeUploadDocumentApi = function(folderId, filename, content){
     newsoapapis.uploadDocumentstodocEdge(soaprequest);
 }
 
+newsoapapis.docedgeLinkDocumentsApi = function(){
+    let soaprequest = `
+        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:doc="http://document.webservice.docedge.com/">
+            <soapenv:Header/>
+            <soapenv:Body>
+                <doc:link>
+                    <sid>${newsoapapis.sessionId}</sid>
+                    <doc1>${newsoapapis.maindocId}</doc1>
+                    <doc2>${newsoapapis.attachdocId}</doc2>
+                    <type>normal</type>
+                </doc:link>
+            </soapenv:Body>
+        </soapenv:Envelope>
+    `
+
+    newsoapapis.linkDocumentsindocEdge(soaprequest);
+}
+
 newsoapapis.getdocEdgeSession = function(soaprequest){
     const xhr = new XMLHttpRequest();
     xhr.open('POST', baseurl + "/services/Auth?wsdl", false);
@@ -258,6 +278,24 @@ newsoapapis.uploadDocumentstodocEdge = function(soaprequest){
                 alert("Document Uploaded !");                
             }else{
                 alert("Failed to upload documents");
+            }
+        }
+    };
+
+    xhr.send(soaprequest);
+}
+
+newsoapapis.linkDocumentsindocEdge = function(soaprequest){
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", baseurl + "/services/Document", fasle);
+    xhr.setRequestHeader('Content-Type', 'text/xml;charset=utf-8');
+
+    xhr.onreadystatechange = () => {
+        if(xhr.readyState === 4){
+            if(xhr.status === 200){
+                alert("Document Linked!");
+            }else{
+                alert("Documents not able to linked");
             }
         }
     };
